@@ -42,7 +42,7 @@ public:
     Any(const Any& other) : content_(other.content_ ? other.content_->Clone() : nullptr) {}
     
     Any& operator=(const Any& other) {
-        if (this != &other) return *this;
+        if (this == &other) return *this;
         if (content_) delete content_; 
         
         content_ = other.content_ ? other.content_->Clone() : nullptr;
