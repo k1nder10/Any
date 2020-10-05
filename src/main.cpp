@@ -12,8 +12,12 @@ int main() {
         int x = 5;
         any = x;
         any = 1.24;
-        any = 'c';
 
+        const int y = 2;
+        any = y;
+        std::cout << palkin::any_cast<const int>(any) << '\n';
+
+        any = 'c';
         const auto c = palkin::any_cast<char>(any);
         std::cout << c << '\n';
 
@@ -24,10 +28,9 @@ int main() {
         const auto vec = palkin::any_cast<std::vector<std::string>>(any);
         for (const auto& v: vec) std::cout << v << '\n';
 
-        // TODO: have to workaround with template parameter
-        // const char world[] = "world";
-        // any = world;
-        // std::cout << palkin::any_cast<const char*>(any) << '\n';
+        const char cstring[] = "cstring";
+        any = cstring;
+        std::cout << palkin::any_cast<const char*>(any) << '\n';
 
         const auto b = palkin::any_cast<const bool>(any);
     }
