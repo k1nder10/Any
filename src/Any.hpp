@@ -37,7 +37,7 @@ public:
     Any() : content_(nullptr) {}
 
     template <typename T>
-    Any(const T& value) : content_(new Holder<T>(value)) {} 
+    Any(T&& value) : content_(new Holder<T>(std::forward<T>(value))) {} 
 
     Any(const Any& other) : content_(other.content_ ? other.content_->Clone() : nullptr) {}
     
