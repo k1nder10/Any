@@ -1,7 +1,6 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include <typeindex>
 #include <stdexcept>
 
 #include "Any.hpp"
@@ -18,15 +17,16 @@ int main() {
         std::cout << palkin::any_cast<const int>(any) << '\n';
 
         any = 'c';
-        const auto c = palkin::any_cast<char>(any);
+        const auto c = palkin::any_cast<const volatile char>(any);
         std::cout << c << '\n';
 
         any = std::string("string");
         std::cout << palkin::any_cast<std::string>(any) << '\n';
 
-        any = std::vector<std::string>{"hello", "world"};
-        const auto vec = palkin::any_cast<std::vector<std::string>>(any);
-        for (const auto& v: vec) std::cout << v << '\n';
+        any = std::vector<std::string>{"vector", "of", "strings"};
+        for (const auto& v: palkin::any_cast<std::vector<std::string>>(any)) 
+            std::cout << v << ' ';
+        std::cout << '\n';
 
         const char cstring[] = "cstring";
         any = cstring;

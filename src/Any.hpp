@@ -1,7 +1,9 @@
 #ifndef ANY_HPP
 #define ANY_HPP
 
+#include <stdexcept>
 #include <typeindex>
+#include <type_traits>
 
 namespace palkin {
 
