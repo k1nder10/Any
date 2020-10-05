@@ -9,23 +9,27 @@
 int main() {
     try {
         palkin::Any any;
-        any = 5;
+        int x = 5;
+        any = x;
         any = 1.24;
         any = 'c';
 
-        auto c = palkin::any_cast<char>(any);
+        const auto c = palkin::any_cast<char>(any);
         std::cout << c << '\n';
 
         any = std::string("string");
         std::cout << palkin::any_cast<std::string>(any) << '\n';
-        
-        // any = "world"; // TODO: fix error
 
         any = std::vector<std::string>{"hello", "world"};
-        auto vec = palkin::any_cast<std::vector<std::string>>(any);
+        const auto vec = palkin::any_cast<std::vector<std::string>>(any);
         for (const auto& v: vec) std::cout << v << '\n';
 
-        auto b = palkin::any_cast<bool>(any);
+        // TODO: have to workaround with template parameter
+        // const char world[] = "world";
+        // any = world;
+        // std::cout << palkin::any_cast<const char*>(any) << '\n';
+
+        const auto b = palkin::any_cast<const bool>(any);
     }
     catch (const std::exception& e) {
         std::cerr << "Error catched: " << e.what() << '\n';
