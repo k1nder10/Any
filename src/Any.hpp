@@ -3,7 +3,6 @@
 
 #include <typeindex>
 
-
 namespace palkin {
 
 
@@ -37,9 +36,10 @@ public:
     Any() : content_(nullptr) {}
 
     template <typename T>
-    Any(T&& value) : content_(new Holder<T>(std::forward<T>(value))) {} 
+    Any(T&& value) : content_(new Holder<std::decay_t<T>>(std::forward<T>(value))) {}
 
-    Any(const Any& other) : content_(other.content_ ? other.content_->Clone() : nullptr) {}
+    Any(const Any& other) : content_(other.content_ ? 
+                                     other.content_->Clone() : nullptr) {}
     
     Any& operator=(const Any& other) {
         if (this == &other) return *this;
