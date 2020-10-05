@@ -9,7 +9,7 @@ namespace palkin {
 class Placeholder {
 public:
     virtual ~Placeholder() = default;
-    virtual const std::type_info& TypeInfo() const = 0;
+    virtual const std::type_info& TypeInfo() const noexcept = 0;
     virtual Placeholder* Clone() const = 0;
 };
 
@@ -17,9 +17,9 @@ public:
 template <typename T>
 class Holder : public Placeholder {
 public:
-    Holder(const T& v) : value(v) {}
+    constexpr Holder(const T& v) noexcept : value(v) {}
 
-    const std::type_info& TypeInfo() const override {
+    const std::type_info& TypeInfo() const noexcept override {
         return typeid(value);
     };
 
@@ -33,7 +33,7 @@ public:
 
 class Any {
 public:
-    Any() : content_(nullptr) {}
+    constexpr Any() noexcept : content_(nullptr) {}
 
     template <typename T>
     Any(T&& value) : content_(new Holder<std::decay_t<T>>(std::forward<T>(value))) {}
@@ -89,7 +89,7 @@ public:
         }
     }
 
-    const std::type_info& TypeInfo() const {
+    const std::type_info& TypeInfo() const noexcept {
         return content_ ? content_->TypeInfo() : typeid(void);
     }
 
@@ -98,7 +98,7 @@ public:
 
 protected:
     template <typename T>
-    const T* ToPtr() const {
+    const T* ToPtr() const noexcept {
         if (TypeInfo() == typeid(T)) {
             return &static_cast<Holder<T>*>(content_)->value;
         }
@@ -114,10 +114,10 @@ private:
 
 template <typename T>
 T any_cast(const Any& other) {
-    const T* res = other.ToPtr<T>();
-    if (!res) throw std::bad_cast();
+    const T* value = other.ToPtr<T>();
+    if (!value) throw std::bad_cast();
     
-    return *res;
+    return *value;
 }
 
 
