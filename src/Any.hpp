@@ -51,7 +51,7 @@ public:
         return *this;
     }
 
-    Any(Any&& other) {
+    Any(Any&& other) : content_(nullptr) {
         if (other.content_) {
             content_ = other.content_->Clone();
             delete other.content_;
